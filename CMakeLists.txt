@@ -25,7 +25,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(trinket trinket.c )
+add_executable(trinket 
+trinket.c
+lcd.c # add lcd.c to the build
+) 
 
 pico_set_program_name(trinket "trinket")
 pico_set_program_version(trinket "0.1")
@@ -41,6 +44,7 @@ target_link_libraries(trinket
 target_include_directories(trinket PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+  . # add this folder to include the lcd header file
 )
 
 # Add any user requested libraries

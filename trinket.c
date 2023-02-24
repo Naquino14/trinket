@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "hardware/i2c.h"
 #include "lcd.h"
 #include "pico/stdlib.h"
 
@@ -15,15 +14,7 @@
 int main(void) {
     stdio_init_all();
 
-    // I2C Initialisation. Using it at 400Khz.
-    i2c_init(I2C_PORT, 400 * 1000);
-
-    gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
-    gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);
-    gpio_pull_up(I2C_SDA);
-    gpio_pull_up(I2C_SCL);
-
-    puts("Hello, world!");
-    init();
+    printf("Initializing LCD...\n");
+    lcd_init(I2C_PORT, I2C_SDA, I2C_SCL);
     return 0;
 }

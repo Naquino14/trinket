@@ -1,10 +1,40 @@
 // See JHD1313 datasheet
 // Author: Nate Aquino (naquino14@outlook.com)
 
-#ifndef RGB_LCD_H
-#define RGB_LED_H
+#ifndef _RGB_LCD_H
+#define _RGB_LED_H
+
+#ifndef byte
+#define byte uint8_t
+#endif  // !byte
+
+#pragma region Includes
+
+#ifndef _STDINT_H
+#include <stdint.h>
+#endif  // !_STDINT_H
+
+#ifndef _STDIO_H
+#include <stdio.h>
+#endif  // !_STDIO_H
+
+#ifndef _HARDWARE_I2C_H
+#include "hardware/i2c.h"
+#endif  // !_HARDWARE_I2C_H
+
+#ifndef _PICO_STDIO_H
+#include "pico/stdlib.h"
+#endif  // !_PICO_STDIO_H
+
+#ifndef _STDARG_H
+#include <stdarg.h>
+#endif  // !_STDARG_H
+
+#pragma endregion Includes
 
 #pragma region LCD
+
+#pragma region LCD commands
 
 /// The address of the LCD I2C device.
 #define LCD_ADDR 0x7c >> 1
@@ -19,7 +49,7 @@
 /// Sets Digital Display RAM address to 0,
 /// returns the cursor to the beginning, but leaves
 /// the content on the LCD unchanged.
-#define LCD_INPUT_SET 0x4
+#define LCD_ENTRY_MODE_SET 0x4
 /// Sets the display on/off,
 /// sets the cursor on/off,
 /// and sets blink on/off.
@@ -38,22 +68,22 @@
 /// and prepares it to recieve data.
 #define LCD_SET_DDRAM_ADDR 0x80
 
-#pragma endregion
+#pragma endregion LCD commands
 
 #pragma region LCD flags
 
-// Input Set flags
+// Entry mode Set flags
 
 /// Sets the entry moving direction of the cursor
-/// to the right?
-#define LCD_INPUT_SET_INC 0x2
+/// to the right.
+#define LCD_ENTRY_MODE_INC 0x2
 /// Sets the entry moving direction of the cursor.
-/// to the left?
-#define LCD_INPUT_SET_DEC 0x0
+/// to the left.
+#define LCD_ENTRY_MODE_DEC 0x0
 /// Sets the entry shift to incriment.
-#define LCD_INPUT_SET_SHIFT 0X1
+#define LCD_ENTRY_MODE_SHIFT 0X1
 // Sets the entry shift to decriment.
-#define LCD_INPUT_SET_NSHFT 0x0
+#define LCD_ENTRY_MODE_NSHFT 0x0
 
 // Display Switch flags
 
@@ -96,8 +126,42 @@
 /// Sets the LCD to use 5x7 font.
 #define LCD_FUNCTION_SET_5X7 0x0
 
-#pragma endregion
+#pragma endregion LCD flags
 
-void init();
+#pragma region Structs
+
+/// @brief A struct containing the default initialization commands for the LCD.
+typedef struct lcd_init_def_t lcd_init_def;
+
+#pragma endregion Structs
+
+#pragma region Methods
+
+/// @brief Initializes the LCD and the backlight I2C devices.
+/// @param i2cport The I2C port to use.
+void lcd_init(i2c_inst_t* i2cport, uint sdaport, uint sclport);
+
+/// @brief sets the baudrate of the I2C port. (By default 400kHz)
+/// @param baudrate Baudrate. (in Hz)
+void setbaudrate(uint baudrate);
+
+/// @brief Combines flags of a command into a single byte. TODO: mark as static when done testing.
+/// @param cmd The command to combine flags with.
+/// @param n_flags The number of flags to combine.
+/// @param ... The flags to combine.
+/// @return The combined flags.
+byte mkcmd(byte cmd, int n_flags, ...);
+
+/// @brief Makes an lcd initialization defaults struct.
+/// @return The lcd initialization defaults struct.
+lcd_init_def mkinitdef();
+
+/// @brief Sets the initialization defaults for the LCD.
+/// @param def The initialization defaults struct.
+void setinitdef(lcd_init_def* def);
+
+#pragma endregion Methods
+
+#pragma endregion LCD
 
 #endif  // !RGB_LCD_H

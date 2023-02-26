@@ -37,7 +37,7 @@
 #pragma region LCD commands
 
 /// The address of the LCD I2C device.
-#define LCD_ADDR 0x7c >> 1
+#define LCD_ADDR (0x7C >> 1)
 
 /// Clears the screen, sets the address counter to 0
 /// and returns the cursor to the start.

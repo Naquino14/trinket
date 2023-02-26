@@ -14,12 +14,6 @@
         (byte & 0x02 ? '1' : '0'), \
         (byte & 0x01 ? '1' : '0')
 
-struct lcd_init_def_t {
-    byte func_set;
-    byte display_switch;
-    byte entry_mode_set;
-};
-
 static uint _baudrate = 400000U;
 
 static lcd_init_def _initdef = {
@@ -39,59 +33,34 @@ void lcd_init(i2c_inst_t* i2cport, uint sdaport, uint sclport) {
     gpio_set_function(sclport, GPIO_FUNC_I2C);
     gpio_pull_up(sdaport);
     gpio_pull_up(sclport);
-    i2c_set_slave_mode(i2cport, false, LCD_ADDR);
 
-    printf("initialized i2c with sda port %d and scl port %d | baud: %d\nWriting all commands to 0x%x : " BYTE_TO_BINARY_PATTERN "\n",
-           sdaport,
-           sclport,
-           baud_a,
-           LCD_ADDR,
-           BYTE_TO_BINARY(LCD_ADDR));
+    // wait at least 30 ms for LCD to power up
+    sleep_ms(50);
 
-    sleep_us(50000);
+    // function set
+    writecmd(_initdef.func_set);
+    sleep_ms(5);  // wait at least 4.1 ms
 
-    byte cmd[2];
-    cmd[0] = 0x80;
-    cmd[1] = mkcmd(LCD_FUNCTION_SET, LCD_FUNCTION_SET_2LINE);
-    printf("Writing function set: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    int result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
-
-    // wait at least 39 μs
-    sleep_us(4500);
-
-    printf("Writing function set again: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
-
+    writecmd(_initdef.func_set);
     sleep_us(150);
-    printf("Writing function set AGAIN: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
 
-    printf("Writing function set AGAIN???: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
+    writecmd(_initdef.func_set);
+    sleep_us(150);
 
-    // turn the display on
-    cmd[1] = mkcmd(LCD_DISPLAY_SWITCH, 3, LCD_DISPLAY_SWITCH_DISP_ON, LCD_DISPLAY_SWITCH_CUR_ON, LCD_DISPLAY_SWITCH_BLINK_ON);
-    printf("Writing display switch: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
-    sleep_us(2000);
+    writecmd(_initdef.func_set);
+    sleep_us(150);
+
+    // display on/off control
+    writecmd(_initdef.display_switch);
+    sleep_ms(2);
 
     // clear display
-    cmd[1] = LCD_SCREEN_CLEAR;
-    printf("Writing screen clear:" BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
-    sleep_us(2000);
+    writecmd(LCD_SCREEN_CLEAR);
+    sleep_ms(2);
 
-    // initialize to default text direction (for romance languages)
-    cmd[1] = mkcmd(LCD_ENTRY_MODE_SET, 2, LCD_ENTRY_MODE_DEC, 0x2);
-    printf("Writing entry mode set: " BYTE_TO_BINARY_PATTERN "\n", BYTE_TO_BINARY(cmd[1]));
-    result = i2c_write_blocking(i2cport, LCD_ADDR, &cmd, 2, false);
-    printf("%s: %d\n", result > 0 ? "ACK" : "NACK", result);
+    // entry mode set
+    writecmd(_initdef.entry_mode_set);
+    sleep_ms(2);
 
     // initialization end
     printf("LCD initialized\n");
@@ -100,6 +69,15 @@ void lcd_init(i2c_inst_t* i2cport, uint sdaport, uint sclport) {
 #pragma endregion
 
 #pragma region Helper Methods
+
+int writecmd(byte cmd) {
+    const byte _cmd[2] = {0x80, cmd};
+    return i2c_write_blocking(i2c0, LCD_ADDR, _cmd, 2, false);
+}
+
+int set_text(char* text, int line) {
+    return 0;  // not implemented
+}
 
 byte mkcmd(byte cmd, int n_flags, ...) {
     va_list args;

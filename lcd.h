@@ -131,7 +131,11 @@
 #pragma region Structs
 
 /// @brief A struct containing the default initialization commands for the LCD.
-typedef struct lcd_init_def_t lcd_init_def;
+typedef struct lcd_init_def_t {
+    byte func_set;
+    byte display_switch;
+    byte entry_mode_set;
+} lcd_init_def;
 
 #pragma endregion Structs
 
@@ -159,6 +163,17 @@ lcd_init_def mkinitdef();
 /// @brief Sets the initialization defaults for the LCD.
 /// @param def The initialization defaults struct.
 void setinitdef(lcd_init_def* def);
+
+/// @brief Sends a command to the LCD.
+/// @param cmd The command to send.
+/// @returns The number of bytes sent or -2 if the send failed.
+int writecmd(byte cmd);
+
+/// @brief Sets the text of a line on the LCD.
+/// @param text The text to set.
+/// @param line The line to set the text on.
+/// @returns The number of bytes sent or -2 if the send failed.
+int set_text(char* text, int line);
 
 #pragma endregion Methods
 

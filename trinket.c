@@ -13,10 +13,13 @@
 
 int main(void) {
     stdio_init_all();
-    sleep_ms(6000);
 
     printf("Initializing LCD...\n");
+    lcd_init_def initdef = mkinitdef();
+    initdef.display_switch = mkcmd(LCD_DISPLAY_SWITCH, 3, LCD_DISPLAY_SWITCH_DISP_ON, LCD_DISPLAY_SWITCH_BLINK_ON, LCD_DISPLAY_SWITCH_CUR_ON);
+    setinitdef(&initdef);
     lcd_init(I2C_PORT, I2C_SDA, I2C_SCL);
+
     for (;;) {
         printf("Looping\n");
         sleep_ms(1000);

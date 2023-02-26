@@ -28,6 +28,7 @@ pico_sdk_init()
 add_executable(trinket 
 trinket.c
 lcd.c # add lcd.c to the build
+backlight.c # add backlight.c to the build
 ) 
 
 pico_set_program_name(trinket "trinket")

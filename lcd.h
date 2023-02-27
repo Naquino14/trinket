@@ -34,10 +34,10 @@
 
 #pragma region LCD
 
-#pragma region LCD commands
-
 /// The address of the LCD I2C device.
 #define LCD_ADDR (0x7C >> 1)
+
+#pragma region LCD commands
 
 /// Clears the screen, sets the address counter to 0
 /// and returns the cursor to the start.
@@ -143,6 +143,8 @@ typedef struct lcd_init_def_t {
 
 /// @brief Initializes the LCD and the backlight I2C devices.
 /// @param i2cport The I2C port to use.
+/// @param sdaport The SDA port to use.
+/// @param sclport The SCL port to use.
 void lcd_init(i2c_inst_t* i2cport, uint sdaport, uint sclport);
 
 /// @brief sets the baudrate of the I2C port. (By default 400kHz)

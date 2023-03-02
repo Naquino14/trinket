@@ -28,12 +28,6 @@ void setbaudrate(uint baudrate) {
 }
 
 void lcd_init(i2c_inst_t* i2cport, uint sdaport, uint sclport) {
-    uint baud_a = i2c_init(i2cport, _baudrate);
-    gpio_set_function(sdaport, GPIO_FUNC_I2C);
-    gpio_set_function(sclport, GPIO_FUNC_I2C);
-    gpio_pull_up(sdaport);
-    gpio_pull_up(sclport);
-
     // wait at least 30 ms for LCD to power up
     sleep_ms(50);
 

@@ -1,6 +1,10 @@
 #ifndef _BACKLIGHT_H
 #define _BACKLIGHT_H
 
+#ifndef byte
+#define byte uint8_t
+#endif  // !byte
+
 #pragma region Includes
 
 #ifndef _STDINT_H
@@ -14,8 +18,6 @@
 #ifndef _HARDWARE_I2C_H
 #include "hardware/i2c.h"
 #endif  // !_HARDWARE_I2C_H
-
-#define byte uint8_t
 
 #pragma endregion Includes
 

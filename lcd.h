@@ -37,6 +37,12 @@
 /// The address of the LCD I2C device.
 #define LCD_ADDR (0x7C >> 1)
 
+/// The delay time in μs between each command sent to the LCD. (0.15 ms)
+#define FAST_DELAY 150
+
+/// The delay time in μs between each slow command sent to the LCD. (2 ms)
+#define SLOW_DELAY 2000
+
 #pragma region LCD commands
 
 /// Clears the screen, sets the address counter to 0
@@ -80,10 +86,10 @@
 /// Sets the entry moving direction of the cursor.
 /// to the left.
 #define LCD_ENTRY_MODE_DEC 0x0
-/// Sets the entry shift to incriment.
-#define LCD_ENTRY_MODE_SHIFT 0X1
 // Sets the entry shift to decriment.
-#define LCD_ENTRY_MODE_NSHFT 0x0
+#define LCD_ENTRY_MODE_NSHFT 0x1
+/// Sets the entry shift to incriment.
+#define LCD_ENTRY_MODE_SHIFT 0X0
 
 // Display Switch flags
 
@@ -166,16 +172,26 @@ lcd_init_def mkinitdef();
 /// @param def The initialization defaults struct.
 void setinitdef(lcd_init_def* def);
 
+/// @brief Moves the cursor position.
+/// @param line The line to move the cursor to.
+/// @param pos The position to move the cursor to.
+void set_cursor(int pos, int line);
+
 /// @brief Sends a command to the LCD.
 /// @param cmd The command to send.
 /// @returns The number of bytes sent or -2 if the send failed.
 int writecmd(byte cmd);
 
+/// @brief Sends data to the LCD.
+/// @param data The data to send.
+/// @returns The number of bytes sent or -2 if the send failed.
+int writedata(byte data);
+
 /// @brief Sets the text of a line on the LCD.
 /// @param text The text to set.
+/// @param length The length of the text.
 /// @param line The line to set the text on.
-/// @returns The number of bytes sent or -2 if the send failed.
-int set_text(char* text, int line);
+void set_text(const char* text, int line);
 
 #pragma endregion Methods
 

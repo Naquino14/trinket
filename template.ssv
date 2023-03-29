@@ -1,0 +1,5 @@
+default-color-hex;defaultframetime;startuptime;stoptime;
+frame-1-color-hex;frame-1-time;frame-1-text-top;frame-1-text-bottom;
+frame-2-color-hex;frame-2-time;frame-2-text-top;frame-2-text-bottom;
+…
+frame-n-color-hex;frame-n-time;frame-n-text-top;frame-n-text-bottom;

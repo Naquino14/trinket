@@ -3,6 +3,7 @@
 
 #include "backlight.h"
 #include "lcd.h"
+#include "trinketparser.h"
 #include "pico/stdlib.h"
 
 // I2C defines

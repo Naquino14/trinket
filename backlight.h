@@ -1,3 +1,6 @@
+// see PCA9633 datasheet
+// Author: Nate Aquino (naquino14@outlook.com)
+
 #ifndef _BACKLIGHT_H
 #define _BACKLIGHT_H
 

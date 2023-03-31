@@ -1,3 +1,5 @@
+// Author: Nate Aquino (naquino14@outlook.com)
+
 #ifndef _TRINKETPARSER_H
 #define _TRINKETPARSER_H
 

@@ -26,6 +26,7 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(trinket 
+prog.c
 trinket.c
 lcd.c # add lcd.c to the build
 backlight.c # add backlight.c to the build

@@ -1,3 +1,5 @@
 .vscode/
 build/
 conf*.ssv
+frames.h
+frames.ssv

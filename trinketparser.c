@@ -5,7 +5,7 @@
 /// @brief Initializes a config
 /// @returns A pointer to the config in memory
 static trinket_conf* trinket_make_config(void) {
-    trinket_conf* cf = malloc(sizeof(trinket_conf));
+    trinket_conf* cf = (trinket_conf*)malloc(sizeof(trinket_conf));
     cf->default_time = 0;
     cf->start_time = 0;
     cf->restart_time = 0;
@@ -14,7 +14,7 @@ static trinket_conf* trinket_make_config(void) {
     cf->default_color[2] = 0xFF;
     cf->num_frames = 0;
 
-    cf->frames = malloc(sizeof(trinket_frame) * MAX_FRAMES);
+    cf->frames = (trinket_frame*)malloc(sizeof(trinket_frame) * MAX_FRAMES);
     return cf;
 }
 

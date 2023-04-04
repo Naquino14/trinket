@@ -38,8 +38,6 @@ int main(void) {
     stdio_init_all();
     i2cinit();
 
-    sleep_ms(6000);
-
     printf("Initializing LCD...\n");
     // printf("%s\n", FRAMES);
     lcd_init_def initdef = mkinitdef();
@@ -87,7 +85,7 @@ int main(void) {
             trinket_frame* fr = &cf->frames[i];
             printf("Frame %d: %dms #%.2x%.2x%.2x: |%s|%s|\n", i, fr->time, fr->color[0], fr->color[1], fr->color[2], fr->text_top, fr->text_bottom);
             set_text(fr->text_top, 0);
-            set_text(fr->text_top, 1);
+            set_text(fr->text_bottom, 1);
             backlight_set_color(fr->color[0], fr->color[1], fr->color[2]);
             sleep_ms(fr->time);
         }

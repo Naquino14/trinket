@@ -1,0 +1,30 @@
+.lcd {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: xx-large;
+    border-radius: 6px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+.led-backing {
+    width: 350px;
+    padding: 1px;
+    margin-left: 0;
+    margin-right: 30px;
+    background-color: #000;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+}
+
+.line {
+    text-align: left;
+    margin: 0 3px 0 3px;
+}

@@ -14,10 +14,18 @@ function App() {
       </div>
       <div className='lcd-container'>
         <LCD line1={line1} line2={line2} color={lcdColor} />
+      </div>
+      <div className='button-container'>
         <Button label='PLAY' onclick={() => alert('play')} />
         <Button label='PAUSE' onclick={() => alert('pause')} />
         <Button label='RESTART' onclick={() => alert('restart')} />
         <Button label='STEP' onclick={() => alert('STEP')} />
+        <Button label='CLEAR' onclick={() => alert('STEP')} />
+      </div>
+      <div className='frames-container_bg'>
+        <div className='frames-container'>
+          <button className='addframe-button' onClick={() => alert('add frame')}>+</button>
+        </div>
       </div>
     </div>
   )

@@ -16,8 +16,6 @@
 .led-backing {
     width: 350px;
     padding: 1px;
-    margin-left: 0;
-    margin-right: 30px;
     background-color: #000;
     margin-top: 10px;
     margin-bottom: 10px;

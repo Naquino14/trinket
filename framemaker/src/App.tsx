@@ -20,7 +20,6 @@ function App() {
 
   const reorderFrame = (id: number, direction: number) => {
     // swap frames
-    console.log(`Reordering frame ${id} ${direction === -1 ? 'up' : 'down'}`)
     if (direction === 0)
       return
     const framesCopy = [...frames]
@@ -68,7 +67,6 @@ function App() {
           <form className='defaults-form' onSubmit={() => alert('submit')}>
             <label className='defaults-label'>Color:
               <input className='defaults-input' type='color' value={defaults.color} onChange={(e) => {
-                console.log(`Setting color to ${e.target.value}`)
                 setDefaults({ ...defaults, color: e.target.value })
               }
               } />

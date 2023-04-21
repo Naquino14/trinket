@@ -32,23 +32,27 @@ const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFr
             <div className='separator' />
             <div className='parameter-container'>
                 <div className='parameter'>Line 1:
-                    <input type='text' value={frame.line1} onChange={(e) => {
+                    <input className='parameter-input' type='text' value={frame.line1} onChange={(e) => {
                         e.preventDefault()
                         updateFrame({ ...frame, id: frame.id, line1: e.target.value })
                     }} /></div>
                 <div className='parameter'>Line 2:
-                    <input type='text' value={frame.line2} onChange={(e) => {
+                    <input className='parameter-input' type='text' value={frame.line2} onChange={(e) => {
                         e.preventDefault()
                         updateFrame({ ...frame, id: frame.id, line2: e.target.value })
-                    }}></input></div>
+                    }} /></div>
                 <div className='parameter'>Color:
-                    <input type='color' value={frame.color} onChange={(e) => {
+                    <input className='parameter-input' type='color' value={frame.color} onChange={(e) => {
                         e.preventDefault()
                         updateFrame({ ...frame, id: frame.id, color: e.target.value })
-                    }}></input></div>
-                <div className='parameter'>Duration: {frame.duration}</div>
+                    }} /></div>
+                <div className='parameter'>Duration:
+                    <input className='parameter-input' type='number' value={frame.duration} onChange={(e) => {
+                        e.preventDefault()
+                        updateFrame({ ...frame, id: frame.id, duration: parseInt(e.target.value) })
+                    }} /></div>
             </div>
-            <button className='button' onClick={(e) => {
+            <button className='button' style={{ marginRight: '10px' }} onClick={(e) => {
                 e.preventDefault()
                 deleteFrame(frame.id)
             }} >X</button>

@@ -34,6 +34,7 @@
 
 .reorder-button {
     background-color: transparent;
+    color: #fff;
 }
 
 .separator {
@@ -42,4 +43,18 @@
     background-color: #777;
 }
 
-.parameter {}
+.parameter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.parameter-input {
+    width: 150px;
+    height: 30px;
+    margin: 10px;
+    margin-bottom: 10px;
+    font-size: medium;
+}

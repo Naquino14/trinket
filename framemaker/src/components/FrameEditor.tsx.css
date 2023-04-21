@@ -1,0 +1,45 @@
+.frameEditor {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 65px;
+    width: 100%;
+    background-color: #414141;
+    color: #fff;
+    font-size: xx-large;
+}
+
+.parameter-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 60px 0 60px;
+}
+
+.index {
+    margin-left: 10px;
+}
+
+.reorder-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.reorder-button {
+    background-color: transparent;
+}
+
+.separator {
+    width: 2px;
+    height: 100%;
+    background-color: #777;
+}
+
+.parameter {}

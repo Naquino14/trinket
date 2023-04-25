@@ -4,6 +4,7 @@ import LCD from './components/LCD'
 import Defaults from './Defaults'
 import Frame from './Frame'
 import FrameEditor from './components/FrameEditor'
+import { playFrames, restart, stopPlaying } from './AnimationController'
 
 function App() {
   const [line1, setLine1] = useState('1234567891234567')
@@ -56,9 +57,9 @@ function App() {
         <LCD line1={line1} line2={line2} color={lcdColor} />
       </div>
       <div className='button-container'>
-        <button className='button' onClick={() => alert('play')} >PLAY</button>
-        <button className='button' onClick={() => alert('pause')} >PAUSE</button>
-        <button className='button' onClick={() => alert('restart')} >RESTART</button>
+        <button className='button' onClick={() => playFrames({ frames, defaults, setLine1, setLine2, setLcdColor })} >PLAY</button>
+        <button className='button' onClick={() => stopPlaying()} >PAUSE</button>
+        <button className='button' onClick={() => restart()} >RESTART</button>
         <button className='button' onClick={() => alert('step')} >STEP</button>
         <button className='button' onClick={() => { setFrames([]) }} >CLEAR</button>
       </div>
@@ -110,7 +111,7 @@ function App() {
           }}>+</button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

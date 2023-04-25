@@ -4,11 +4,11 @@ import LCD from './components/LCD'
 import Defaults from './Defaults'
 import Frame from './Frame'
 import FrameEditor from './components/FrameEditor'
-import { playFrames, restart, stopPlaying } from './AnimationController'
+import { playFrames, restart, stepFrame, stopPlaying } from './AnimationController'
 
 function App() {
-  const [line1, setLine1] = useState('1234567891234567')
-  const [line2, setLine2] = useState('123')
+  const [line1, setLine1] = useState('')
+  const [line2, setLine2] = useState('')
   const [lcdColor, setLcdColor] = useState('#ffffff')
   const [defaults, setDefaults] = useState<Defaults>({ color: '#ffffff', startupTime: 1000, frameTime: 1000, endTime: 1000 })
   const [frames, setFrames] = useState<Frame[]>([])
@@ -48,6 +48,9 @@ function App() {
     setFrames(frames.map((f) => f.id === frame.id ? frame : f))
   }
 
+  const getFrames = () => { return frames }
+  const getDefaults = () => { return defaults }
+
   return (
     <div className='app'>
       <div className="header">
@@ -57,10 +60,10 @@ function App() {
         <LCD line1={line1} line2={line2} color={lcdColor} />
       </div>
       <div className='button-container'>
-        <button className='button' onClick={() => playFrames({ frames, defaults, setLine1, setLine2, setLcdColor })} >PLAY</button>
+        <button className='button' onClick={() => playFrames({ getFrames, getDefaults, setLine1, setLine2, setLcdColor })} >PLAY</button>
         <button className='button' onClick={() => stopPlaying()} >PAUSE</button>
         <button className='button' onClick={() => restart()} >RESTART</button>
-        <button className='button' onClick={() => alert('step')} >STEP</button>
+        <button className='button' onClick={() => stepFrame({ getFrames, getDefaults, setLine1, setLine2, setLcdColor })} >STEP</button>
         <button className='button' onClick={() => { setFrames([]) }} >CLEAR</button>
       </div>
       <div className='frames-container_bg'>
@@ -97,7 +100,6 @@ function App() {
           <div className='defaults-separator' />
           <div className='frames'>
             {
-              // map all frames to a default div for now
               frames.map((frame, index) => {
                 return (
                   <FrameEditor frame={frame} key={index} deleteFrame={deleteFrame} reorderFrame={reorderFrame} updateFrame={updateFrame} />

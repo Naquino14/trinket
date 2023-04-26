@@ -7,8 +7,17 @@ import FrameEditor from './components/FrameEditor'
 import { playFrames, restart, stepFrame, stopPlaying } from './AnimationController'
 
 function App() {
-  const [line1, setLine1] = useState('')
-  const [line2, setLine2] = useState('')
+  const [line1, setLine1_] = useState('#\xa0\xa0FRAMEMAKER\xa0\xa0#')
+  const setLine1 = (line: string) => {
+    line = line.replace(/ /g, '\xa0')
+    setLine1_(line)
+  }
+  const [line2, setLine2_] = useState('#\xa0\xa0TRINKET v1\xa0\xa0#')
+  const setLine2 = (line: string) => {
+    line = line.replace(/ /g, '\xa0')
+    setLine2_(line)
+  }
+
   const [lcdColor, setLcdColor] = useState('#ffffff')
   const [defaults, setDefaults] = useState<Defaults>({ color: '#ffffff', startupTime: 1000, frameTime: 1000, endTime: 1000 })
   const [frames, setFrames] = useState<Frame[]>([])
@@ -64,7 +73,12 @@ function App() {
         <button className='button' onClick={() => stopPlaying()} >PAUSE</button>
         <button className='button' onClick={() => restart()} >RESTART</button>
         <button className='button' onClick={() => stepFrame({ getFrames, getDefaults, setLine1, setLine2, setLcdColor })} >STEP</button>
-        <button className='button' onClick={() => { setFrames([]) }} >CLEAR</button>
+        <button className='button' onClick={() => {
+          setLine1('')
+          setLine2('')
+          setLcdColor('#ffffff')
+          setFrames([])
+        }} >CLEAR</button>
       </div>
       <div className='frames-container_bg'>
         <div className='frames-container'>

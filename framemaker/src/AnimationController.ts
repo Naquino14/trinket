@@ -4,8 +4,8 @@ import Defaults from './Defaults'
 interface LCDProps {
     getFrames: () => Frame[],
     getDefaults: () => Defaults,
-    setLine1: React.Dispatch<React.SetStateAction<string>>
-    setLine2: React.Dispatch<React.SetStateAction<string>>
+    setLine1: ((s: string) => void)
+    setLine2: | ((s: string) => void)
     setLcdColor: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -37,6 +37,8 @@ const sleep = (ms: number) => {
 const playFrames = async ({ getFrames, getDefaults, setLine1, setLine2, setLcdColor }: LCDProps) => {
     console.log(`playFrames: index=${index}`)
     stop = false
+    if (playing)
+        return Promise.resolve()
     playing = true
     await sleep(getDefaults().startupTime)
 
@@ -61,10 +63,13 @@ const playFrames = async ({ getFrames, getDefaults, setLine1, setLine2, setLcdCo
         await sleep(getDefaults().endTime)
     }
     playing = false
+    return Promise.resolve()
 }
 
 const stepFrame = ({ getFrames, getDefaults, setLine1, setLine2, setLcdColor }: LCDProps) => {
     const frames = getFrames()
+    if (frames.length === 0)
+        return
     setindex(getindex() + 1 > frames.length - 1 ? 0 : getindex() + 1)
     const frame = frames[getindex()]
     setLine1(frame.line1)

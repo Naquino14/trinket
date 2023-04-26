@@ -4,8 +4,8 @@ import Defaults from './Defaults'
 interface LCDProps {
     getFrames: () => Frame[],
     getDefaults: () => Defaults,
-    setLine1: ((s: string) => void)
-    setLine2: | ((s: string) => void)
+    setLine1: React.Dispatch<React.SetStateAction<string>> | ((s: string) => void)
+    setLine2: React.Dispatch<React.SetStateAction<string>> | ((s: string) => void)
     setLcdColor: React.Dispatch<React.SetStateAction<string>>
 }
 

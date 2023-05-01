@@ -35,11 +35,22 @@ const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFr
                 <div className='parameter'>Line 1:
                     <input className='parameter-input' type='text' value={frame.line1} onChange={(e) => {
                         e.preventDefault()
+                        // check if the line is too long
+                        if (e.target.value.length > 16) {
+                            // if it is, set the value to the previous value
+                            e.target.value = frame.line2
+                            // and return
+                            return
+                        }
                         updateFrame({ ...frame, id: frame.id, line1: e.target.value })
                     }} /></div>
                 <div className='parameter'>Line 2:
                     <input className='parameter-input' type='text' value={frame.line2} onChange={(e) => {
                         e.preventDefault()
+                        if (e.target.value.length > 16) {
+                            e.target.value = frame.line2
+                            return
+                        }
                         updateFrame({ ...frame, id: frame.id, line2: e.target.value })
                     }} /></div>
                 <div className='parameter'>Color:

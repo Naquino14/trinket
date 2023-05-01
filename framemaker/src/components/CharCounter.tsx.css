@@ -1,0 +1,14 @@
+.charCounter {
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.charCounter-separator {
+    width: 16px;
+    height: 2px;
+    background-color: #fff;
+    margin-top: 3px;
+}

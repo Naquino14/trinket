@@ -1,6 +1,7 @@
 import React from 'react'
 import Frame from '../Frame'
 import './FrameEditor.tsx.css'
+import CharCounter from './CharCounter'
 
 interface FrameEditorProps {
     frame: Frame
@@ -43,7 +44,9 @@ const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFr
                             return
                         }
                         updateFrame({ ...frame, id: frame.id, line1: e.target.value })
-                    }} /></div>
+                    }} />
+                    <CharCounter line={frame.line1} />
+                </div>
                 <div className='parameter'>Line 2:
                     <input className='parameter-input' type='text' value={frame.line2} onChange={(e) => {
                         e.preventDefault()
@@ -52,7 +55,9 @@ const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFr
                             return
                         }
                         updateFrame({ ...frame, id: frame.id, line2: e.target.value })
-                    }} /></div>
+                    }} />
+                    <CharCounter line={frame.line2} />
+                </div>
                 <div className='parameter'>Color:
                     <input className='parameter-input' type='color' value={frame.color} onChange={(e) => {
                         e.preventDefault()

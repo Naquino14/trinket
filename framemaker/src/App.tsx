@@ -5,6 +5,7 @@ import Defaults from './Defaults'
 import Frame from './Frame'
 import FrameEditor from './components/FrameEditor'
 import { playFrames, restart, stepFrame, stopPlaying } from './AnimationController'
+import CompileWindow from './components/CompileWindow'
 
 function App() {
   const [line1, setLine1_] = useState('#\xa0\xa0FRAMEMAKER\xa0\xa0#')
@@ -21,6 +22,8 @@ function App() {
   const [lcdColor, setLcdColor] = useState('#ffffff')
   const [defaults, setDefaults] = useState<Defaults>({ color: '#ffffff', startupTime: 1000, frameTime: 1000, endTime: 1000 })
   const [frames, setFrames] = useState<Frame[]>([])
+  const [displayCompile, setDisplayCompile] = useState(false)
+  const [compiledFrames, setCompiledFrames] = useState('')
 
   const deleteFrame = (id: number) => {
     setFrames(frames.filter((frame) => frame.id !== id))
@@ -60,8 +63,26 @@ function App() {
   const getFrames = () => { return frames }
   const getDefaults = () => { return defaults }
 
+  const compile = () => {
+    let text = ''
+
+    // defaults
+    text += `${defaults.color.substring(1)};${defaults.frameTime};${defaults.startupTime};${defaults.endTime}\n`
+    if (frames.length === 0)
+      text += ';;;;\n'
+    else
+      for (let i = 0; i < frames.length; i++)
+        text += `${frames[i].color.substring(1) === defaults.color.substring(1) ? '' : frames[i].color.substring(1)};${frames[i].duration === defaults.frameTime ? '' : frames[i].duration};${frames[i].line1};${frames[i].line2};\n`
+
+    setCompiledFrames(text)
+    setDisplayCompile(true)
+  }
+
   return (
     <div className='app'>
+      {
+        displayCompile ? <CompileWindow text={compiledFrames} setDisplayCompile={setDisplayCompile} /> : <></>
+      }
       <div className="header">
         <h1 className='title'>FRAMEMAKER</h1>
       </div>
@@ -79,6 +100,7 @@ function App() {
           setLcdColor('#ffffff')
           setFrames([])
         }} >CLEAR</button>
+        <button className='button' onClick={compile}>COMPILE</button>
       </div>
       <div className='frames-container_bg'>
         <div className='frames-container'>

@@ -7,9 +7,10 @@ interface FrameEditorProps {
     deleteFrame: (id: number) => void
     reorderFrame: (id: number, direction: number) => void
     updateFrame: (frame: Frame) => void
+    duplicateFrame: (id: number) => void
 }
 
-const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFrame, updateFrame }) => {
+const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFrame, updateFrame, duplicateFrame }) => {
     return (
         <div className='frameEditor' style={{
             borderTop: frame.id === 0 ? 'none' : '2px solid #777',
@@ -52,6 +53,10 @@ const FrameEditor: React.FC<FrameEditorProps> = ({ frame, deleteFrame, reorderFr
                         updateFrame({ ...frame, id: frame.id, duration: parseInt(e.target.value) })
                     }} /></div>
             </div>
+            <button className='button' onClick={(e) => {
+                e.preventDefault()
+                duplicateFrame(frame.id)
+            }} >⩔</button>
             <button className='button' style={{ marginRight: '10px' }} onClick={(e) => {
                 e.preventDefault()
                 deleteFrame(frame.id)

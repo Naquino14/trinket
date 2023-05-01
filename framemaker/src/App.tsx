@@ -6,6 +6,7 @@ import Frame from './Frame'
 import FrameEditor from './components/FrameEditor'
 import { playFrames, restart, stepFrame, stopPlaying } from './AnimationController'
 import CompileWindow from './components/CompileWindow'
+import { Duplex } from 'stream'
 
 function App() {
   const [line1, setLine1_] = useState('#\xa0\xa0FRAMEMAKER\xa0\xa0#')
@@ -58,6 +59,12 @@ function App() {
 
   const updateFrame = (frame: Frame) => {
     setFrames(frames.map((f) => f.id === frame.id ? frame : f))
+  }
+
+  const duplicateFrame = (id: number) => {
+    const frame = frames[id]
+    const newFrame: Frame = { id: frames.length, color: frame.color, duration: frame.duration, line1: frame.line1, line2: frame.line2 }
+    setFrames([...frames.slice(0, id + 1), newFrame, ...frames.slice(id + 1)])
   }
 
   const getFrames = () => { return frames }
@@ -138,7 +145,7 @@ function App() {
             {
               frames.map((frame, index) => {
                 return (
-                  <FrameEditor frame={frame} key={index} deleteFrame={deleteFrame} reorderFrame={reorderFrame} updateFrame={updateFrame} />
+                  <FrameEditor frame={frame} key={index} deleteFrame={deleteFrame} reorderFrame={reorderFrame} updateFrame={updateFrame} duplicateFrame={duplicateFrame} />
                 )
               })
             }

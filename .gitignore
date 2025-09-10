@@ -2,3 +2,4 @@
 build/
 frames/
 frames.h
+framemaker/bun.lock

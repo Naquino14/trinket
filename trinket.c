@@ -1,9 +1,33 @@
 #include "trinket.h"
 
+#include "pico/bootrom.h"
+
 #pragma region Functions
 
 /// @brief Trinket's config address
 static trinket_conf* cf;
+
+void trinket_check_for_bootsel() {
+    static char buf[16];
+    static int idx = 0;
+    
+    while (true) {
+        int c = getchar_timeout_us(0); // non-blocking
+        if (c == PICO_ERROR_TIMEOUT) break; // nothing to read
+
+        if (c == '\n' || c == '\r') {
+            buf[idx] = 0; // null terminate
+            if (strcmp(buf, "BOOT") == 0) {
+                printf("Entering BOOTSEL mode...\n");
+                sleep_ms(100);
+                reset_usb_boot(0, 0);
+            }
+            idx = 0;
+        } else if (idx < (int)(sizeof(buf) - 1)) {
+            buf[idx++] = c;
+        }
+    }
+}
 
 void trinket_init_all(i2c_inst_t* i2cport, uint sdaport, uint sclport) {
     lcd_init_def initdef = mkinitdef();
@@ -36,6 +60,8 @@ void trinket_start() {
             set_text(fr->text_bottom, 1);
             backlight_set_color(fr->color[0], fr->color[1], fr->color[2]);
             sleep_ms(fr->time);
+            tight_loop_contents();
+            trinket_check_for_bootsel();
         }
         sleep_ms(cf->restart_time);
     }

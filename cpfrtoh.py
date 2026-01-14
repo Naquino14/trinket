@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 # turns frames.ssv into frames.h
 def main(argc, argv):
     if argc != 2:
@@ -22,6 +23,20 @@ def main(argc, argv):
         f.write('\"\n')
         f.write(f"#define FRAMES_LEN {c + 2}")
     os.system('cd ./build && make')
+
+    if "PICO_MOUNT_POINT" in os.environ:
+        print("Waiting for pico to mount...")
+            
+        os.system("echo BOOT > /dev/ttyACM0")
+        mp = os.environ["PICO_MOUNT_POINT"]
+        while not os.path.exists(mp):
+            if os.path.exists("/dev/ttyACM0"):
+                os.system("echo BOOT > /dev/ttyACM0")
+            time.sleep(250 / 1000)
+
+        time.sleep(250 / 1000)  # wait a bit more
+
+        os.system(f'cp ./build/trinket.uf2 {mp}')
     return 0
 
 if __name__ == '__main__':

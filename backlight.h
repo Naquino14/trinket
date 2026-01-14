@@ -1,5 +1,5 @@
 // see PCA9633 datasheet
-// Author: Nate Aquino (naquino14@outlook.com)
+// Author: Nate Aquino
 
 #ifndef _BACKLIGHT_H
 #define _BACKLIGHT_H
@@ -10,24 +10,18 @@
 
 #pragma region Includes
 
-#ifndef _STDINT_H
 #include <stdint.h>
-#endif  // !_STDINT_H
-
-#ifndef _STDIO_H
 #include <stdio.h>
-#endif  // !_STDIO_H
 
-#ifndef _HARDWARE_I2C_H
 #include "hardware/i2c.h"
-#endif  // !_HARDWARE_I2C_H
 
 #pragma endregion Includes
 
 #pragma region Backlight
 
-#define backlight_addr 0x62
-#define backlight_addr_v5 0x30
+#define BACKLIGHT_ADDR 0x62
+#define BACKLIGHT_ADDR_V5 0x30
+#define BACKLIGHT_ADDR_RST 0x03
 
 #pragma region Registers
 
@@ -145,6 +139,13 @@
 #define MODE2_OUTDRV_OFF 0x0
 
 #pragma endregion Register flags
+
+#pragma region reset magic
+
+#define BACKLIGHT_RESET_MAGIC1 0xA5
+#define BACKLIGHT_RESET_MAGIC2 0x5A
+
+#pragma endregion reset magic
 
 #pragma region Methods
 
